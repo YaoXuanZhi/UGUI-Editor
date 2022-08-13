@@ -109,7 +109,7 @@ namespace U3DExtends
             GameObject testUI = UIEditorHelper.GetUITestRootNode();
             
             string file_path = Path.Combine(Configure.ResAssetsPath, "Canvas.prefab");
-            file_path = FileUtil.GetProjectRelativePath(file_path);
+            file_path = UnityEditor.FileUtil.GetProjectRelativePath(file_path);
             GameObject layout_prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(file_path, typeof(UnityEngine.Object)) as GameObject;
             GameObject layout = GameObject.Instantiate(layout_prefab) as GameObject;
             layout.transform.SetParent(testUI.transform);
@@ -148,7 +148,7 @@ namespace U3DExtends
         public static Decorate CreateEmptyDecorate(Transform parent)
         {
             string file_path = Path.Combine(Configure.ResAssetsPath, "Decorate.prefab");
-            file_path = FileUtil.GetProjectRelativePath(file_path);
+            file_path = UnityEditor.FileUtil.GetProjectRelativePath(file_path);
             GameObject decorate_prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(file_path, typeof(UnityEngine.Object)) as GameObject;
             GameObject decorate = GameObject.Instantiate(decorate_prefab) as GameObject;
             decorate.transform.SetParent(parent);
@@ -294,7 +294,7 @@ namespace U3DExtends
 
                     if (real_layout)
                     {
-                        string select_path = FileUtil.GetProjectRelativePath(layoutInfo.LayoutPath);
+                        string select_path = UnityEditor.FileUtil.GetProjectRelativePath(layoutInfo.LayoutPath);
                         Object prefab = AssetDatabase.LoadAssetAtPath(select_path, typeof(Object));
                         GameObject new_view = PrefabUtility.InstantiateAttachedAsset(prefab) as GameObject;
                         new_view.transform.SetParent(layoutInfo.transform);
@@ -326,7 +326,7 @@ namespace U3DExtends
             }
             string asset_relate_path = select_path;
             if (!select_path.StartsWith("Assets/"))
-                asset_relate_path = FileUtil.GetProjectRelativePath(select_path);
+                asset_relate_path = UnityEditor.FileUtil.GetProjectRelativePath(select_path);
 
             Object prefab = AssetDatabase.LoadAssetAtPath(asset_relate_path, typeof(Object));
             GameObject new_view = PrefabUtility.InstantiateAttachedAsset(prefab) as GameObject;
@@ -635,7 +635,7 @@ namespace U3DExtends
                 return;
             string full_path = save_path;
             PathSaver.GetInstance().SetLastPath(PathType.SaveLayout, save_path);
-            save_path = FileUtil.GetProjectRelativePath(save_path);
+            save_path = UnityEditor.FileUtil.GetProjectRelativePath(save_path);
             if (save_path == "")
             {
                 Debug.Log("wrong path to save layout, is this project path? : " + full_path);

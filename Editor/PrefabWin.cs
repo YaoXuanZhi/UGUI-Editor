@@ -295,7 +295,7 @@ public class PrefabWin : EditorWindow
 	{
 		if (!string.IsNullOrEmpty(path))
 		{
-			path = FileUtil.GetProjectRelativePath(path);
+			path = UnityEditor.FileUtil.GetProjectRelativePath(path);
 			string guid = AssetDatabase.AssetPathToGUID(path);
 
 			if (!string.IsNullOrEmpty(guid))

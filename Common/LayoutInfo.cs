@@ -67,15 +67,15 @@ namespace U3DExtends
                 _viewNameLabel = name_trans.GetComponent<UnityEngine.UI.Text>();
         }
 
-        //±¾À´×ø±ê»ò´óĞ¡±ä¸üÊ±Ò²ĞèÒªÔÙ±£´æÒ»ÏÂ,µ«ÊÇĞèÒª¼àÌıpos sizeµÈ±ä¸üÓÖÒªio±£´æ,ÅÂÌ«¶à²ÎÕÕÍ¼Ê±Ó°ÏìĞÔÄÜ,ËùÒÔ»¹ÊÇ½çÃæ±£´æÊ±ÔÙÒ»Æğ±£´æ°É
+        //æœ¬æ¥åæ ‡æˆ–å¤§å°å˜æ›´æ—¶ä¹Ÿéœ€è¦å†ä¿å­˜ä¸€ä¸‹,ä½†æ˜¯éœ€è¦ç›‘å¬pos sizeç­‰å˜æ›´åˆè¦ioä¿å­˜,æ€•å¤ªå¤šå‚ç…§å›¾æ—¶å½±å“æ€§èƒ½,æ‰€ä»¥è¿˜æ˜¯ç•Œé¢ä¿å­˜æ—¶å†ä¸€èµ·ä¿å­˜å§
         public bool SaveToConfigFile()
         {
-            string select_path = FileUtil.GetProjectRelativePath(LayoutPath);
+            string select_path = UnityEditor.FileUtil.GetProjectRelativePath(LayoutPath);
             string layout_path_md5 = UIEditorHelper.GenMD5String(select_path);
-            RectTransform real_layout = UIEditorHelper.GetRealLayout(gameObject) as RectTransform;//ÏÈÄÃµ½ÕæÊµµÄ½çÃæprefab
+            RectTransform real_layout = UIEditorHelper.GetRealLayout(gameObject) as RectTransform;//å…ˆæ‹¿åˆ°çœŸå®çš„ç•Œé¢prefab
             if (select_path == "" || real_layout == null)
             {
-                //½çÃæ»¹Î´±£´æ,µÈ±£´æÊ±ÔÙµ÷ÓÃ±¾º¯Êı
+                //ç•Œé¢è¿˜æœªä¿å­˜,ç­‰ä¿å­˜æ—¶å†è°ƒç”¨æœ¬å‡½æ•°
                 return false;
             }
             RectTransform curTrans = transform as RectTransform;
@@ -109,7 +109,7 @@ namespace U3DExtends
                     content.Append(rectTrans.sizeDelta.x.ToString());
                     content.Append(' ');
                     content.Append(rectTrans.sizeDelta.y.ToString());
-                    content.Append('*');//·Ö¸ô²»Í¬µÄ²ÎÕÕÍ¼
+                    content.Append('*');//åˆ†éš”ä¸åŒçš„å‚ç…§å›¾
                     if (decorates[i].IsChangedTrans())
                     {
                         decorates[i].SaveTrans();
@@ -120,11 +120,11 @@ namespace U3DExtends
             if (hadTransChanged || hadDecorateTransChanged)
             {
                 if (content[content.Length - 1] == '*')
-                    content.Remove(content.Length - 1, 1);//É¾µô×îºóÒ»¸ö·Ö¸ô·û
+                    content.Remove(content.Length - 1, 1);//åˆ æ‰æœ€åä¸€ä¸ªåˆ†éš”ç¬¦
                 File.WriteAllText(savePath, content.ToString());
                 return true;
             }
-            //µ±ÕæÊµ½çÃæµÄ×ø±êºÍ²ÎÕÕÍ¼µÄ±ä»»Ã»±äµÄ»°¾Í²»ĞèÒª±£´æÁË
+            //å½“çœŸå®ç•Œé¢çš„åæ ‡å’Œå‚ç…§å›¾çš„å˜æ¢æ²¡å˜çš„è¯å°±ä¸éœ€è¦ä¿å­˜äº†
             return false;
         }
 
@@ -142,7 +142,7 @@ namespace U3DExtends
             return null;
         }
 
-        //´ò¿ª½çÃæÊ±,´ÓÏîÄ¿ÁÙÊ±ÎÄ¼ş¼ĞÕÒµ½¶ÔÓ¦½çÃæµÄ²ÎÕÕÍ¼ÅäÖÃ,È»ºóÉú³É²ÎÕÕÍ¼
+        //æ‰“å¼€ç•Œé¢æ—¶,ä»é¡¹ç›®ä¸´æ—¶æ–‡ä»¶å¤¹æ‰¾åˆ°å¯¹åº”ç•Œé¢çš„å‚ç…§å›¾é…ç½®,ç„¶åç”Ÿæˆå‚ç…§å›¾
         public void ApplyConfig(string view_path)
         {
             string layout_path_md5 = UIEditorHelper.GenMD5String(view_path);
@@ -160,7 +160,7 @@ namespace U3DExtends
             string[] pos_cfg = real_layout_pos_str.Split(' ');
             if (pos_cfg.Length == 2)
             {
-                RectTransform real_layout = UIEditorHelper.GetRealLayout(gameObject) as RectTransform;//ÏÈÄÃµ½ÕæÊµµÄ½çÃæprefab
+                RectTransform real_layout = UIEditorHelper.GetRealLayout(gameObject) as RectTransform;//å…ˆæ‹¿åˆ°çœŸå®çš„ç•Œé¢prefab
                 if (real_layout == null)
                 {
                     Debug.Log("cannot find real layout on ApplyConfig : " + view_path);
@@ -175,7 +175,7 @@ namespace U3DExtends
             }
             content = content.Substring(pos_end_index + RealPosEndStr.Length);
             if (content == "")
-                return;//ÓĞĞ©½çÃæÃ»²Î¿¼Í¼Ò²ÊÇÕı³£µÄ,Ö±½Ó·µ»Ø
+                return;//æœ‰äº›ç•Œé¢æ²¡å‚è€ƒå›¾ä¹Ÿæ˜¯æ­£å¸¸çš„,ç›´æ¥è¿”å›
             string[] decorate_cfgs = content.Split('*');
             for (int i = 0; i < decorate_cfgs.Length; i++)
             {
@@ -195,7 +195,7 @@ namespace U3DExtends
                     RectTransform rectTrans = decor.GetComponent<RectTransform>();
                     if (rectTrans != null)
                     {
-                        //IFormatter formatter = new BinaryFormatter();//Ê¹ÓÃĞòÁĞ»¯¹¤¾ßµÄ»°¾Í¿ÉÒÔ±£´æ¶àµãĞÅÏ¢,µ«ÊµÏÖ¸´ÔÓÁË,ÔİÓÃ¼òµ¥µÄ°É
+                        //IFormatter formatter = new BinaryFormatter();//ä½¿ç”¨åºåˆ—åŒ–å·¥å…·çš„è¯å°±å¯ä»¥ä¿å­˜å¤šç‚¹ä¿¡æ¯,ä½†å®ç°å¤æ‚äº†,æš‚ç”¨ç®€å•çš„å§
                         string[] pos = cfgs[1].Split(' ');
                         if (pos.Length == 2)
                             rectTrans.localPosition = new Vector2(float.Parse(pos[0]), float.Parse(pos[1]));
