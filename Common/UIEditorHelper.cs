@@ -721,19 +721,26 @@ namespace U3DExtends
             return (!string.IsNullOrEmpty(path)) ? AssetDatabase.AssetPathToGUID(path) : null;
         }
 
+#if !UNITY_2020_1_OR_NEWER
         static MethodInfo s_GetInstanceIDFromGUID;
+#endif
         static public UnityEngine.Object GUIDToObject(string guid)
         {
             if (string.IsNullOrEmpty(guid)) return null;
-
+            
+#if UNITY_2020_1_OR_NEWER
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            return AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+#else
             if (s_GetInstanceIDFromGUID == null)
                 s_GetInstanceIDFromGUID = typeof(AssetDatabase).GetMethod("GetInstanceIDFromGUID", BindingFlags.Static | BindingFlags.NonPublic);
-
+            
             int id = (int)s_GetInstanceIDFromGUID.Invoke(null, new object[] { guid });
             if (id != 0) return EditorUtility.InstanceIDToObject(id);
             string path = AssetDatabase.GUIDToAssetPath(guid);
             if (string.IsNullOrEmpty(path)) return null;
             return AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
+#endif
         }
 
         static public T GUIDToObject<T>(string guid) where T : UnityEngine.Object
