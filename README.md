@@ -65,4 +65,7 @@ PrefabWin窗口一开始时肯定是没东西的啦,你可以往里面拉prefab,
 )右键显示颜色框(有时代码要设置颜色值可以用的)  
 )Hierarchy界面也要显示我们的右键菜单  
 
+---
+之前在项目内部里，将这个工具整合进来了，现在发现了一个更好的类似UGUI拓展工具包 [ThunderFire UX Tool](https://assetstore.unity.com/packages/tools/utilities/thunderfireuxtool-241533)，因此这个东西就不再拓展了
+
 
